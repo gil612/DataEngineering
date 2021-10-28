@@ -8,22 +8,23 @@ from datetime import datetime
 connection=pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel=connection.channel()
 
-# create a queue to which the message will be delivered
-# the name of the queue is idempotent; if the queue exists, nothing happens
-channel.queue_declare(queue='hello')
+channel.queue_declare(queue='tq')
 
 
 # publish the message (body) to the queue (routing_key)
 t0 = str(datetime.now()).encode('utf-8')
 for x in range(0,10000):
-    channel.basic_publish(exchange='',
-                        routing_key='hello',
-                        body='a')
+    channel.basic_publish(exchange ='',
+                        routing_key= 'tq',
+                        body = '')
     
-channel.basic_publish(exchange='',
-                        routing_key='hello',
-                        body=t0)
+channel.basic_publish(exchange = '',
+                        routing_key =  'tq',
+                        body = t0)
 
 
 # close the connection
 connection.close()
+
+
+# tomestamp = np.frombuffer(ts,dtype)

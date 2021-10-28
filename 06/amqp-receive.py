@@ -9,7 +9,7 @@ def main():
     connection=pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel=connection.channel()
 
-    channel.queue_declare(queue='hello')
+    channel.queue_declare(queue='tq')
 
     
     # callback function to receive the messages
@@ -23,9 +23,9 @@ def main():
             print(t0,t1)
             print('Messages per Second: ', 10000/(t1-t0).total_seconds())
             
-
-
-    channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
+    
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(queue='tq', on_message_callback=callback, auto_ack=True)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
