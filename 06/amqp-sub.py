@@ -25,6 +25,3 @@ channel.basic_publish(exchange = '',
 
 # close the connection
 connection.close()
-
-
-# tomestamp = np.frombuffer(ts,dtype)
